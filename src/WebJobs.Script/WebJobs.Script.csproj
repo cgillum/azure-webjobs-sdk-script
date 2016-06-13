@@ -42,6 +42,10 @@
     </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DurableTask, Version=1.0.0.8, Culture=neutral, PublicKeyToken=d53979610a6e89dd, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\durabletask-demo\bin\Debug\DurableTask.dll</HintPath>
+    </Reference>
     <Reference Include="EdgeJs, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Edge.js.5.9.1\lib\EdgeJs.dll</HintPath>
       <Private>True</Private>
@@ -90,8 +94,12 @@
       <HintPath>..\..\packages\Microsoft.Azure.WebJobs.Extensions.SendGrid.2.0.0-alpha-10301\lib\net45\Microsoft.Azure.WebJobs.Extensions.SendGrid.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Azure.WebJobs.Host, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <!--<Reference Include="Microsoft.Azure.WebJobs.Host, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Azure.WebJobs.2.0.0-alpha-10343\lib\net45\Microsoft.Azure.WebJobs.Host.dll</HintPath>
+      <Private>True</Private>
+    </Reference>-->
+    <Reference Include="Microsoft.Azure.WebJobs.Host">
+      <HintPath>C:\Users\cgillum\Git\azure-webjobs-sdk\src\Microsoft.Azure.WebJobs.Host\bin\Debug\Microsoft.Azure.WebJobs.Host.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.WebJobs.ServiceBus, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -249,9 +257,11 @@
     <Compile Include="Binding\FunctionBinding.cs" />
     <Compile Include="Binding\HttpBinding.cs" />
     <Compile Include="Binding\IResultProcessingBinding.cs" />
+    <Compile Include="Binding\OrchestrationBinding.cs" />
     <Compile Include="Binding\QueueBinding.cs" />
     <Compile Include="Binding\ServiceBusBinding.cs" />
     <Compile Include="Binding\TableBinding.cs" />
+    <Compile Include="Description\Binding\OrchestrationBindingMetadata.cs" />
     <Compile Include="Description\DotNet\DiagnosticExtensions.cs" />
     <Compile Include="Description\DotNet\CSharp\Analyzers\InvalidFileMetadataReferenceAnalyzer.cs" />
     <Compile Include="Description\Binding\ApiHubTableBindingMetadata.cs" />

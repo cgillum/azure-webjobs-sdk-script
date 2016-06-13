@@ -13,6 +13,7 @@ namespace Microsoft.Azure.WebJobs.Script.Description
         BlobTrigger,
         ServiceBus,
         ServiceBusTrigger,
+        OrchestrationTrigger,
         HttpTrigger,
         Http,
         Table,

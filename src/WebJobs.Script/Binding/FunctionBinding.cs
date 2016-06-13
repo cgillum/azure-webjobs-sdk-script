@@ -81,6 +81,10 @@ namespace Microsoft.Azure.WebJobs.Script.Binding
                             }
                             bindings.Add(new ServiceBusBinding(config, serviceBusBindingMetadata, fileAccess));
                             break;
+                        case BindingType.OrchestrationTrigger:
+                            OrchestrationBindingMetadata orchestrationMetadata = (OrchestrationBindingMetadata)bindingMetadata;
+                            bindings.Add(new OrchestrationBinding(config, orchestrationMetadata, fileAccess));
+                            break;
                         case BindingType.Table:
                             TableBindingMetadata tableBindingMetadata = (TableBindingMetadata)bindingMetadata;
                             bindings.Add(new TableBinding(config, tableBindingMetadata, fileAccess));

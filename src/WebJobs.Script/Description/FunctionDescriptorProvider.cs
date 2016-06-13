@@ -127,6 +127,10 @@ namespace Microsoft.Azure.WebJobs.Script.Description
                     parameterType = DefaultParameterType(parameterType, triggerMetadata.DataType);
                     triggerParameter = ParseServiceBusTrigger((ServiceBusBindingMetadata)triggerMetadata, parameterType);
                     break;
+                case BindingType.OrchestrationTrigger:
+                    parameterType = DefaultParameterType(parameterType, triggerMetadata.DataType);
+                    triggerParameter = ParseOrchestrationTrigger((OrchestrationBindingMetadata)triggerMetadata, parameterType);
+                    break;
                 case BindingType.TimerTrigger:
                     triggerParameter = ParseTimerTrigger((TimerBindingMetadata)triggerMetadata, parameterType ?? typeof(TimerInfo));
                     break;
@@ -335,6 +339,43 @@ namespace Microsoft.Azure.WebJobs.Script.Description
             }
 
             return new ParameterDescriptor(trigger.Name, triggerParameterType, attributes);
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
+        protected ParameterDescriptor ParseOrchestrationTrigger(OrchestrationBindingMetadata trigger, Type triggerParameterType)
+        {
+            if (trigger == null)
+            {
+                throw new ArgumentNullException("trigger");
+            }
+
+            if (triggerParameterType == null)
+            {
+                throw new ArgumentNullException("triggerParameterType");
+            }
+
+            ConstructorInfo ctorInfo = typeof(OrchestrationTriggerAttribute).GetConstructor(
+                new[] { typeof(string), typeof(string), typeof(string) });
+
+            string taskHub = trigger.TaskHub;
+            string orchestration = trigger.Orchestration;
+            string version = trigger.Version;
+            CustomAttributeBuilder attributeBuilder = new CustomAttributeBuilder(
+                ctorInfo,
+                new object[] { taskHub, orchestration, version });
+
+            string parameterName = trigger.Name;
+            var attributes = new Collection<CustomAttributeBuilder>
+            {
+                attributeBuilder
+            };
+
+            if (!string.IsNullOrEmpty(trigger.Connection))
+            {
+                FunctionBinding.AddStorageAccountAttribute(attributes, trigger.Connection);
+            }
+
+            return new ParameterDescriptor(parameterName, triggerParameterType, attributes);
         }
 
         protected ParameterDescriptor ParseTimerTrigger(TimerBindingMetadata trigger, Type triggerParameterType = null)
