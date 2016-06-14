@@ -4,22 +4,22 @@
 namespace Microsoft.Azure.WebJobs.Script.Description
 {
     /// <summary>
-    /// Represents metadata for a Durable Task Framework task orchestration function binding. 
+    /// Represents metadata for a Durable Task Framework task activity function binding. 
     /// </summary>
-    public class OrchestrationBindingMetadata : BindingMetadata
+    public class OrchestrationActivityBindingMetadata : BindingMetadata
     {
         /// <summary>
-        /// Gets or sets the name of the task hub in which the orchestration runs.
+        /// Gets or sets the name of the task hub in which the activity's orchestration runs.
         /// </summary>
         public string TaskHub { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the orchestration.
+        /// Gets or sets the name of the activity.
         /// </summary>
-        public string Orchestration { get; set; }
+        public string Activity { get; set; }
 
         /// <summary>
-        /// Gets or sets the version of the orchestration.
+        /// Gets or sets the version of the activity.
         /// </summary>
         public string Version { get; set; }
 

@@ -40,88 +40,89 @@ namespace Microsoft.Azure.WebJobs.Script.Binding
         {
             Collection<FunctionBinding> bindings = new Collection<FunctionBinding>();
 
-            if (bindings != null)
+            foreach (var bindingMetadata in bindingMetadatas)
             {
-                foreach (var bindingMetadata in bindingMetadatas)
+                switch (bindingMetadata.Type)
                 {
-                    switch (bindingMetadata.Type)
-                    {
-                        case BindingType.Blob:
-                        case BindingType.BlobTrigger:
-                            BlobBindingMetadata blobBindingMetadata = (BlobBindingMetadata)bindingMetadata;
-                            bindings.Add(new BlobBinding(config, blobBindingMetadata, fileAccess));
-                            break;
-                        case BindingType.EventHub:
-                        case BindingType.EventHubTrigger:
-                            EventHubBindingMetadata eventHubBindingMetadata = (EventHubBindingMetadata)bindingMetadata;
-                            if (!eventHubBindingMetadata.IsTrigger &&
-                                fileAccess != FileAccess.Write)
-                            {
-                                throw new InvalidOperationException("EventHub binding can only be used for output.");
-                            }
-                            bindings.Add(new EventHubBinding(config, eventHubBindingMetadata, fileAccess));
-                            break;
-                        case BindingType.Queue:
-                        case BindingType.QueueTrigger:
-                            QueueBindingMetadata queueBindingMetadata = (QueueBindingMetadata)bindingMetadata;
-                            if (!queueBindingMetadata.IsTrigger &&
-                                fileAccess != FileAccess.Write)
-                            {
-                                throw new InvalidOperationException("Queue binding can only be used for output.");
-                            }
-                            bindings.Add(new QueueBinding(config, queueBindingMetadata, fileAccess));
-                            break;
-                        case BindingType.ServiceBus:
-                        case BindingType.ServiceBusTrigger:
-                            ServiceBusBindingMetadata serviceBusBindingMetadata = (ServiceBusBindingMetadata)bindingMetadata;
-                            if (!serviceBusBindingMetadata.IsTrigger &&
-                                fileAccess != FileAccess.Write)
-                            {
-                                throw new InvalidOperationException("ServiceBus binding can only be used for output.");
-                            }
-                            bindings.Add(new ServiceBusBinding(config, serviceBusBindingMetadata, fileAccess));
-                            break;
-                        case BindingType.OrchestrationTrigger:
-                            OrchestrationBindingMetadata orchestrationMetadata = (OrchestrationBindingMetadata)bindingMetadata;
-                            bindings.Add(new OrchestrationBinding(config, orchestrationMetadata, fileAccess));
-                            break;
-                        case BindingType.Table:
-                            TableBindingMetadata tableBindingMetadata = (TableBindingMetadata)bindingMetadata;
-                            bindings.Add(new TableBinding(config, tableBindingMetadata, fileAccess));
-                            break;
-                        case BindingType.Http:
-                            if (fileAccess != FileAccess.Write)
-                            {
-                                throw new InvalidOperationException("Http binding can only be used for output.");
-                            }
-                            bindings.Add(new HttpBinding(config, bindingMetadata, FileAccess.Write));
-                            break;
-                        case BindingType.HttpTrigger:
-                            bindings.Add(new HttpBinding(config, bindingMetadata, FileAccess.Read));
-                            break;
-                        case BindingType.MobileTable:
-                            MobileTableBindingMetadata mobileTableMetadata = (MobileTableBindingMetadata)bindingMetadata;
-                            bindings.Add(new MobileTableBinding(config, mobileTableMetadata, fileAccess));
-                            break;
-                        case BindingType.DocumentDB:
-                            DocumentDBBindingMetadata docDBMetadata = (DocumentDBBindingMetadata)bindingMetadata;
-                            bindings.Add(new DocumentDBBinding(config, docDBMetadata, fileAccess));
-                            break;
-                        case BindingType.NotificationHub:
-                            NotificationHubBindingMetadata notificationHubMetadata = (NotificationHubBindingMetadata)bindingMetadata;
-                            bindings.Add(new NotificationHubBinding(config, notificationHubMetadata, fileAccess));
-                            break;
-                        case BindingType.ApiHubFile:
-                        case BindingType.ApiHubFileTrigger:
-                            ApiHubBindingMetadata apiHubBindingMetadata = (ApiHubBindingMetadata)bindingMetadata;
-                            apiHubBindingMetadata.Key = Guid.NewGuid().ToString();
-                            bindings.Add(new ApiHubBinding(config, apiHubBindingMetadata, fileAccess));
-                            break;
-                        case BindingType.ApiHubTable:
-                            ApiHubTableBindingMetadata apiHubTableBindingMetadata = (ApiHubTableBindingMetadata)bindingMetadata;
-                            bindings.Add(new ApiHubTableBinding(config, apiHubTableBindingMetadata, fileAccess));
-                            break;
-                    }
+                    case BindingType.Blob:
+                    case BindingType.BlobTrigger:
+                        BlobBindingMetadata blobBindingMetadata = (BlobBindingMetadata)bindingMetadata;
+                        bindings.Add(new BlobBinding(config, blobBindingMetadata, fileAccess));
+                        break;
+                    case BindingType.EventHub:
+                    case BindingType.EventHubTrigger:
+                        EventHubBindingMetadata eventHubBindingMetadata = (EventHubBindingMetadata)bindingMetadata;
+                        if (!eventHubBindingMetadata.IsTrigger &&
+                            fileAccess != FileAccess.Write)
+                        {
+                            throw new InvalidOperationException("EventHub binding can only be used for output.");
+                        }
+                        bindings.Add(new EventHubBinding(config, eventHubBindingMetadata, fileAccess));
+                        break;
+                    case BindingType.Queue:
+                    case BindingType.QueueTrigger:
+                        QueueBindingMetadata queueBindingMetadata = (QueueBindingMetadata)bindingMetadata;
+                        if (!queueBindingMetadata.IsTrigger &&
+                            fileAccess != FileAccess.Write)
+                        {
+                            throw new InvalidOperationException("Queue binding can only be used for output.");
+                        }
+                        bindings.Add(new QueueBinding(config, queueBindingMetadata, fileAccess));
+                        break;
+                    case BindingType.ServiceBus:
+                    case BindingType.ServiceBusTrigger:
+                        ServiceBusBindingMetadata serviceBusBindingMetadata = (ServiceBusBindingMetadata)bindingMetadata;
+                        if (!serviceBusBindingMetadata.IsTrigger &&
+                            fileAccess != FileAccess.Write)
+                        {
+                            throw new InvalidOperationException("ServiceBus binding can only be used for output.");
+                        }
+                        bindings.Add(new ServiceBusBinding(config, serviceBusBindingMetadata, fileAccess));
+                        break;
+                    case BindingType.OrchestrationTrigger:
+                        OrchestrationBindingMetadata orchestrationMetadata = (OrchestrationBindingMetadata)bindingMetadata;
+                        bindings.Add(new OrchestrationBinding(config, orchestrationMetadata, fileAccess));
+                        break;
+                    case BindingType.OrchestrationActivityTrigger:
+                        OrchestrationActivityBindingMetadata activityMetadata = (OrchestrationActivityBindingMetadata)bindingMetadata;
+                        bindings.Add(new OrchestrationActivityBinding(config, activityMetadata, fileAccess));
+                        break;
+                    case BindingType.Table:
+                        TableBindingMetadata tableBindingMetadata = (TableBindingMetadata)bindingMetadata;
+                        bindings.Add(new TableBinding(config, tableBindingMetadata, fileAccess));
+                        break;
+                    case BindingType.Http:
+                        if (fileAccess != FileAccess.Write)
+                        {
+                            throw new InvalidOperationException("Http binding can only be used for output.");
+                        }
+                        bindings.Add(new HttpBinding(config, bindingMetadata, FileAccess.Write));
+                        break;
+                    case BindingType.HttpTrigger:
+                        bindings.Add(new HttpBinding(config, bindingMetadata, FileAccess.Read));
+                        break;
+                    case BindingType.MobileTable:
+                        MobileTableBindingMetadata mobileTableMetadata = (MobileTableBindingMetadata)bindingMetadata;
+                        bindings.Add(new MobileTableBinding(config, mobileTableMetadata, fileAccess));
+                        break;
+                    case BindingType.DocumentDB:
+                        DocumentDBBindingMetadata docDBMetadata = (DocumentDBBindingMetadata)bindingMetadata;
+                        bindings.Add(new DocumentDBBinding(config, docDBMetadata, fileAccess));
+                        break;
+                    case BindingType.NotificationHub:
+                        NotificationHubBindingMetadata notificationHubMetadata = (NotificationHubBindingMetadata)bindingMetadata;
+                        bindings.Add(new NotificationHubBinding(config, notificationHubMetadata, fileAccess));
+                        break;
+                    case BindingType.ApiHubFile:
+                    case BindingType.ApiHubFileTrigger:
+                        ApiHubBindingMetadata apiHubBindingMetadata = (ApiHubBindingMetadata)bindingMetadata;
+                        apiHubBindingMetadata.Key = Guid.NewGuid().ToString();
+                        bindings.Add(new ApiHubBinding(config, apiHubBindingMetadata, fileAccess));
+                        break;
+                    case BindingType.ApiHubTable:
+                        ApiHubTableBindingMetadata apiHubTableBindingMetadata = (ApiHubTableBindingMetadata)bindingMetadata;
+                        bindings.Add(new ApiHubTableBinding(config, apiHubTableBindingMetadata, fileAccess));
+                        break;
                 }
             }
 

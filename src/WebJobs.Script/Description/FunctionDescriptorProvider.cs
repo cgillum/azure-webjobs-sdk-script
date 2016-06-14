@@ -131,6 +131,10 @@ namespace Microsoft.Azure.WebJobs.Script.Description
                     parameterType = DefaultParameterType(parameterType, triggerMetadata.DataType);
                     triggerParameter = ParseOrchestrationTrigger((OrchestrationBindingMetadata)triggerMetadata, parameterType);
                     break;
+                case BindingType.OrchestrationActivityTrigger:
+                    parameterType = DefaultParameterType(parameterType, triggerMetadata.DataType);
+                    triggerParameter = ParseActivityTrigger((OrchestrationActivityBindingMetadata)triggerMetadata, parameterType);
+                    break;
                 case BindingType.TimerTrigger:
                     triggerParameter = ParseTimerTrigger((TimerBindingMetadata)triggerMetadata, parameterType ?? typeof(TimerInfo));
                     break;
@@ -363,6 +367,43 @@ namespace Microsoft.Azure.WebJobs.Script.Description
             CustomAttributeBuilder attributeBuilder = new CustomAttributeBuilder(
                 ctorInfo,
                 new object[] { taskHub, orchestration, version });
+
+            string parameterName = trigger.Name;
+            var attributes = new Collection<CustomAttributeBuilder>
+            {
+                attributeBuilder
+            };
+
+            if (!string.IsNullOrEmpty(trigger.Connection))
+            {
+                FunctionBinding.AddStorageAccountAttribute(attributes, trigger.Connection);
+            }
+
+            return new ParameterDescriptor(parameterName, triggerParameterType, attributes);
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
+        protected ParameterDescriptor ParseActivityTrigger(OrchestrationActivityBindingMetadata trigger, Type triggerParameterType)
+        {
+            if (trigger == null)
+            {
+                throw new ArgumentNullException("trigger");
+            }
+
+            if (triggerParameterType == null)
+            {
+                throw new ArgumentNullException("triggerParameterType");
+            }
+
+            ConstructorInfo ctorInfo = typeof(ActivityTriggerAttribute).GetConstructor(
+                new[] { typeof(string), typeof(string), typeof(string) });
+
+            string taskHub = trigger.TaskHub;
+            string activity = trigger.Activity;
+            string version = trigger.Version;
+            CustomAttributeBuilder attributeBuilder = new CustomAttributeBuilder(
+                ctorInfo,
+                new object[] { taskHub, activity, version });
 
             string parameterName = trigger.Name;
             var attributes = new Collection<CustomAttributeBuilder>

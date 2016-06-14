@@ -48,6 +48,7 @@ namespace Microsoft.Azure.WebJobs.Script.Description
                     Type == BindingType.EventHubTrigger ||
                     Type == BindingType.ServiceBusTrigger ||
                     Type == BindingType.OrchestrationTrigger ||
+                    Type == BindingType.OrchestrationActivityTrigger ||
                     Type == BindingType.ManualTrigger ||
                     Type == BindingType.ApiHubFileTrigger;
             }

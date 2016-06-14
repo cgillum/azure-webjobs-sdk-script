@@ -45,7 +45,8 @@ namespace Microsoft.Azure.WebJobs.Script.Description
                 typeof(JobHost).Assembly.Location, /*Microsoft.Azure.WebJobs.Host*/
                 typeof(CoreJobHostConfigurationExtensions).Assembly.Location, /*Microsoft.Azure.WebJobs.Extensions*/
                 typeof(System.Web.Http.ApiController).Assembly.Location, /*System.Web.Http*/
-                typeof(System.Net.Http.HttpClientExtensions).Assembly.Location /*System.Net.Http.Formatting*/
+                typeof(System.Net.Http.HttpClientExtensions).Assembly.Location, /*System.Net.Http.Formatting*/
+                typeof(DurableTask.OrchestrationContext).Assembly.Location, /*DurableTask*/
             };
 
         private static readonly List<ISharedAssemblyProvider> SharedAssemblyProviders = new List<ISharedAssemblyProvider>
