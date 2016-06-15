@@ -199,7 +199,9 @@ namespace Microsoft.Azure.WebJobs.Script.Description
 
                 if (functionResult is Task)
                 {
-                    functionResult = await((Task)functionResult).ContinueWith(t => GetTaskResult(t));
+                    functionResult = await((Task)functionResult).ContinueWith(
+                        t => GetTaskResult(t),
+                        TaskContinuationOptions.ExecuteSynchronously);
                 }
 
                 if (functionResult != null)

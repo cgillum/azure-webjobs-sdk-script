@@ -74,7 +74,7 @@ namespace Microsoft.Azure.WebJobs.Script.Description
             if (diagnostics.Any(di => di.Severity == DiagnosticSeverity.Error))
             {
                 throw new CompilationErrorException("Script compilation failed.", diagnostics);
-            }            
+            }
         }
 
         private static ImmutableArray<DiagnosticAnalyzer> GetAnalyzers()
