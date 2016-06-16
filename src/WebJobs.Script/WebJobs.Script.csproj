@@ -42,9 +42,9 @@
     </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DurableTask, Version=1.0.0.8, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DurableTask, Version=1.0.0.8, Culture=neutral, PublicKeyToken=f23263de5b8a73b6, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\durabletask-demo\Dependencies\DurableTask.dll</HintPath>
+      <HintPath>..\..\..\durabletask\Framework\bin\debugB\DurableTask.dll</HintPath>
     </Reference>
     <Reference Include="EdgeJs, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Edge.js.5.9.1\lib\EdgeJs.dll</HintPath>
@@ -259,9 +259,11 @@
     <Compile Include="Binding\IResultProcessingBinding.cs" />
     <Compile Include="Binding\OrchestrationActivityBinding.cs" />
     <Compile Include="Binding\OrchestrationBinding.cs" />
+    <Compile Include="Binding\OrchestrationClientBinding.cs" />
     <Compile Include="Binding\QueueBinding.cs" />
     <Compile Include="Binding\ServiceBusBinding.cs" />
     <Compile Include="Binding\TableBinding.cs" />
+    <Compile Include="Description\Binding\OrchestrationClientBindingMetadata.cs" />
     <Compile Include="Description\Binding\OrchestrationActivityBindingMetadata.cs" />
     <Compile Include="Description\Binding\OrchestrationBindingMetadata.cs" />
     <Compile Include="Description\DotNet\DiagnosticExtensions.cs" />

@@ -36,6 +36,7 @@ namespace Microsoft.Azure.WebJobs.Script.Binding
 
         public abstract Collection<CustomAttributeBuilder> GetCustomAttributes(Type parameterType);
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
         internal static Collection<FunctionBinding> GetBindings(ScriptHostConfiguration config, IEnumerable<BindingMetadata> bindingMetadatas, FileAccess fileAccess)
         {
             Collection<FunctionBinding> bindings = new Collection<FunctionBinding>();
@@ -78,6 +79,10 @@ namespace Microsoft.Azure.WebJobs.Script.Binding
                             throw new InvalidOperationException("ServiceBus binding can only be used for output.");
                         }
                         bindings.Add(new ServiceBusBinding(config, serviceBusBindingMetadata, fileAccess));
+                        break;
+                    case BindingType.OrchestrationClient:
+                        OrchestrationClientBindingMetadata clientMetadata = (OrchestrationClientBindingMetadata)bindingMetadata;
+                        bindings.Add(new OrchestrationClientBinding(config, clientMetadata, fileAccess));
                         break;
                     case BindingType.OrchestrationTrigger:
                         OrchestrationBindingMetadata orchestrationMetadata = (OrchestrationBindingMetadata)bindingMetadata;
